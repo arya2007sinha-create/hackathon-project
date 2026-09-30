@@ -189,14 +189,14 @@ async function seed() {
         attention_status: 'HEALTHY',
         avatar_url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150',
       },
-      // David Kim
+      // David Kim - Engineering Manager
       {
         name: 'David Kim',
         email: 'david.kim@northstar.io',
-        password_hash: employeeHash,
-        role: 'employee',
-        team_id: teamMap['OPS'],
-        job_title: 'Reliability Engineer',
+        password_hash: managerHash,
+        role: 'manager',
+        team_id: teamMap['ENG'],
+        job_title: 'Engineering Operations Lead',
         attention_status: 'HEALTHY',
         avatar_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150',
       },

@@ -41,3 +41,62 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #D1D5DB;
 }
+
+/* Page Opening Animations */
+@keyframes prioraReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.992);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes topSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ambientPulse {
+  0%, 100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.page-enter-animation {
+  animation: prioraReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.card-stagger-1 {
+  animation: prioraReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.card-stagger-2 {
+  animation: prioraReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+.card-stagger-3 {
+  animation: prioraReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+.header-slide-animation {
+  animation: topSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ambient-top-accent {
+  background: linear-gradient(90deg, #4338CA 0%, #6366F1 35%, #0EA5E9 70%, #10B981 100%);
+  height: 3px;
+  width: 100%;
+}
+

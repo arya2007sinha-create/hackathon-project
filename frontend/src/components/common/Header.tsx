@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../store/AuthContext';
+import { useAuth, DEMO_MANAGERS, DEMO_EMPLOYEES } from '../../store/AuthContext';
 import { 
   Bell, 
   Sparkles, 
@@ -17,7 +17,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenAiAssistant, unreadAlertsCount = 0 }) => {
-  const { user, logout, switchPersona } = useAuth();
+  const { user, logout, switchPersona, loginWithAccount } = useAuth();
   const [showPersonaMenu, setShowPersonaMenu] = useState(false);
 
   const getStatusBadge = () => {
@@ -76,41 +76,54 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAiAssistant, unreadAlertsC
           </button>
 
           {showPersonaMenu && (
-            <div className="absolute right-0 mt-2 w-56 bg-card border border-border rounded-xl shadow-modal p-1.5 z-50">
-              <div className="px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-secondary">
-                Live Demo Personas
+            <div className="absolute right-0 mt-2 w-72 bg-card border border-border rounded-xl shadow-modal p-2 z-50 max-h-[80vh] overflow-y-auto page-enter-animation">
+              <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-accent border-b border-border mb-1.5 flex items-center justify-between">
+                <span>👔 Managers & Leadership</span>
+                <span className="text-[9px] text-secondary font-normal">Click to switch</span>
               </div>
-              <button
-                onClick={() => {
-                  switchPersona('employee');
-                  setShowPersonaMenu(false);
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs flex items-center justify-between hover:bg-slate-50 transition-colors ${
-                  user?.email === 'rahul.sharma@northstar.io' ? 'bg-accent/5 text-accent font-semibold' : 'text-primary'
-                }`}
-              >
-                <div>
-                  <p>Rahul Sharma (Employee)</p>
-                  <p className="text-[10px] text-secondary">Operations / Integration Eng.</p>
-                </div>
-                {user?.email === 'rahul.sharma@northstar.io' && <CheckCircle2 className="w-3.5 h-3.5" />}
-              </button>
+              
+              {DEMO_MANAGERS.map((mgr) => (
+                <button
+                  key={mgr.email}
+                  onClick={async () => {
+                    await loginWithAccount(mgr);
+                    setShowPersonaMenu(false);
+                  }}
+                  className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs flex items-center justify-between hover:bg-slate-50 transition-colors ${
+                    user?.email === mgr.email ? 'bg-accent/10 text-accent font-bold' : 'text-primary'
+                  }`}
+                >
+                  <div className="truncate pr-2">
+                    <p className="truncate text-xs font-semibold">{mgr.name}</p>
+                    <p className="text-[10px] text-secondary truncate">{mgr.jobTitle}</p>
+                  </div>
+                  {user?.email === mgr.email && <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />}
+                </button>
+              ))}
 
-              <button
-                onClick={() => {
-                  switchPersona('manager');
-                  setShowPersonaMenu(false);
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs flex items-center justify-between hover:bg-slate-50 transition-colors ${
-                  user?.email === 'sarah.chen@northstar.io' ? 'bg-accent/5 text-accent font-semibold' : 'text-primary'
-                }`}
-              >
-                <div>
-                  <p>Sarah Chen (Manager)</p>
-                  <p className="text-[10px] text-secondary">VP of Operations & Eng.</p>
-                </div>
-                {user?.email === 'sarah.chen@northstar.io' && <CheckCircle2 className="w-3.5 h-3.5" />}
-              </button>
+              <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-secondary border-b border-t border-border my-1.5 flex items-center justify-between">
+                <span>👷 Frontline Employees</span>
+                <span className="text-[9px] text-secondary font-normal">Individual Contributors</span>
+              </div>
+
+              {DEMO_EMPLOYEES.map((emp) => (
+                <button
+                  key={emp.email}
+                  onClick={async () => {
+                    await loginWithAccount(emp);
+                    setShowPersonaMenu(false);
+                  }}
+                  className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs flex items-center justify-between hover:bg-slate-50 transition-colors ${
+                    user?.email === emp.email ? 'bg-accent/10 text-accent font-bold' : 'text-primary'
+                  }`}
+                >
+                  <div className="truncate pr-2">
+                    <p className="truncate text-xs font-semibold">{emp.name}</p>
+                    <p className="text-[10px] text-secondary truncate">{emp.team} &bull; {emp.jobTitle}</p>
+                  </div>
+                  {user?.email === emp.email && <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />}
+                </button>
+              ))}
             </div>
           )}
         </div>
