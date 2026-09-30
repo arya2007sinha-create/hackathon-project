@@ -1,0 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const management_controller_1 = require("../controllers/management.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const role_middleware_1 = require("../middleware/role.middleware");
+const validation_middleware_1 = require("../middleware/validation.middleware");
+const task_validator_1 = require("../validators/task.validator");
+const router = (0, express_1.Router)();
+// Require JWT and Manager/Admin role
+router.use(auth_middleware_1.authenticateJwt);
+router.use((0, role_middleware_1.requireRoles)(['manager', 'admin']));
+router.get('/dashboard', management_controller_1.managementController.getDashboard);
+router.get('/teams', management_controller_1.managementController.getTeams);
+router.get('/teams/:id', management_controller_1.managementController.getTeamById);
+router.get('/employees', management_controller_1.managementController.getEmployees);
+router.get('/employees/:id', management_controller_1.managementController.getEmployeeById);
+router.get('/tasks', management_controller_1.managementController.getTasks);
+router.post('/tasks', (0, validation_middleware_1.validate)(task_validator_1.createTaskSchema), management_controller_1.managementController.createTask);
+router.post('/tasks/:id/override', (0, validation_middleware_1.validate)(task_validator_1.managerOverrideSchema), management_controller_1.managementController.createOverride);
+router.get('/alerts', management_controller_1.managementController.getAlerts);
+router.get('/analytics', management_controller_1.managementController.getAnalytics);
+exports.default = router;

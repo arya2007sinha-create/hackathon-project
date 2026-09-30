@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const employee_controller_1 = require("../controllers/employee.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const validation_middleware_1 = require("../middleware/validation.middleware");
+const task_validator_1 = require("../validators/task.validator");
+const router = (0, express_1.Router)();
+// Protect all employee routes with JWT authentication
+router.use(auth_middleware_1.authenticateJwt);
+router.get('/dashboard', employee_controller_1.employeeController.getDashboard);
+router.get('/tasks', employee_controller_1.employeeController.getTasks);
+router.get('/tasks/:id', employee_controller_1.employeeController.getTaskById);
+router.patch('/tasks/:id/status', (0, validation_middleware_1.validate)(task_validator_1.updateTaskStatusSchema), employee_controller_1.employeeController.updateTaskStatus);
+router.post('/tasks/:id/block', (0, validation_middleware_1.validate)(task_validator_1.blockTaskSchema), employee_controller_1.employeeController.blockTask);
+router.post('/tasks/:id/help', (0, validation_middleware_1.validate)(task_validator_1.requestHelpSchema), employee_controller_1.employeeController.requestHelp);
+router.post('/tasks/:id/suggest-priority', employee_controller_1.employeeController.recalculatePriorities);
+router.get('/recommendations', employee_controller_1.employeeController.recalculatePriorities);
+router.get('/progress', employee_controller_1.employeeController.getDashboard);
+exports.default = router;

@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const ai_controller_1 = require("../controllers/ai.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.authenticateJwt);
+router.post('/prioritize', ai_controller_1.aiController.prioritize);
+router.post('/explain', ai_controller_1.aiController.explain);
+router.post('/insights', ai_controller_1.aiController.askAssistant);
+exports.default = router;
