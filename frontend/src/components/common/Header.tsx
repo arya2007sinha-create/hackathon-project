@@ -9,18 +9,21 @@ import {
   UserCheck, 
   Briefcase,
   ChevronDown,
-  Menu
+  Menu,
+  Play
 } from 'lucide-react';
 
 interface HeaderProps {
   onOpenAiAssistant?: () => void;
   onToggleMobileMenu?: () => void;
+  onOpenDemoTour?: () => void;
   unreadAlertsCount?: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
   onOpenAiAssistant, 
   onToggleMobileMenu, 
+  onOpenDemoTour,
   unreadAlertsCount = 0 
 }) => {
   const { user, logout, switchPersona, loginWithAccount } = useAuth();
@@ -162,6 +165,18 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <Sparkles className="w-3.5 h-3.5 shrink-0" />
             <span className="hidden sm:inline">AI Assistant</span>
+          </button>
+        )}
+
+        {/* Guided 3-Minute Demo Tour Button */}
+        {onOpenDemoTour && (
+          <button
+            onClick={onOpenDemoTour}
+            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg shadow-sm transition-all"
+            title="Launch Interactive 3-Minute Video Demo Tour"
+          >
+            <Play className="w-3 h-3 fill-white shrink-0" />
+            <span className="hidden sm:inline">Demo Tour</span>
           </button>
         )}
 

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, DEMO_MANAGERS, DEMO_EMPLOYEES, DemoAccount } from '../../store/AuthContext';
-import { ArrowRight, Lock, Mail, ShieldAlert, Users, Briefcase, KeyRound, Sparkles, Building2 } from 'lucide-react';
+import { ArrowRight, Lock, Mail, ShieldAlert, Users, Briefcase, KeyRound, Sparkles, Building2, Play } from 'lucide-react';
+import { GuidedDemoTour } from '../../components/common/GuidedDemoTour';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export const LoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAccountEmail, setSelectedAccountEmail] = useState<string>('sarah.chen@northstar.io');
+  const [isDemoTourOpen, setIsDemoTourOpen] = useState(false);
 
   const handleQuickLogin = async (account: DemoAccount) => {
     setError(null);
@@ -78,6 +80,17 @@ export const LoginPage: React.FC = () => {
         <p className="text-xs text-secondary mt-2 max-w-lg mx-auto leading-relaxed">
           "Employees shouldn't spend mental energy deciding what to work on next, while managers shouldn't discover execution problems after they become critical."
         </p>
+
+        <div className="mt-4 flex items-center justify-center">
+          <button
+            type="button"
+            onClick={() => setIsDemoTourOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition-all hover:scale-[1.02]"
+          >
+            <Play className="w-3.5 h-3.5 fill-white" />
+            <span>🎬 Launch 3-Minute Video Demo Guide</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Login / Demo Selection Card */}
@@ -338,6 +351,11 @@ export const LoginPage: React.FC = () => {
           PRIORA Enterprise Work Orchestration Platform &bull; Hackathon Production Release
         </p>
       </div>
+
+      <GuidedDemoTour
+        isOpen={isDemoTourOpen}
+        onClose={() => setIsDemoTourOpen(false)}
+      />
     </div>
   );
 };
