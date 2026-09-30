@@ -21,8 +21,12 @@ app.use(
 );
 app.use(
   cors({
-    origin: config.corsOrigin === '*' ? true : config.corsOrigin.split(','),
+    origin: (origin, callback) => {
+      callback(null, true);
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   })
 );
 
@@ -63,6 +67,9 @@ app.use('/api', routes);
 
 // Check potential paths for frontend dist bundle
 const candidateDistPaths = [
+  path.resolve(__dirname, '../public'),
+  path.resolve(__dirname, './public'),
+  path.resolve(process.cwd(), 'public'),
   path.resolve(__dirname, '../../frontend/dist'),
   path.resolve(__dirname, '../frontend/dist'),
   path.resolve(process.cwd(), 'frontend/dist'),

@@ -20,8 +20,12 @@ app.use((0, helmet_1.default)({
     crossOriginEmbedderPolicy: false,
 }));
 app.use((0, cors_1.default)({
-    origin: env_1.config.corsOrigin === '*' ? true : env_1.config.corsOrigin.split(','),
+    origin: (origin, callback) => {
+        callback(null, true);
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
 // Rate limiter for API endpoints
 const limiter = (0, express_rate_limit_1.default)({
@@ -56,6 +60,9 @@ app.get('/health', (req, res) => {
 app.use('/api', routes_1.default);
 // Check potential paths for frontend dist bundle
 const candidateDistPaths = [
+    path_1.default.resolve(__dirname, '../public'),
+    path_1.default.resolve(__dirname, './public'),
+    path_1.default.resolve(process.cwd(), 'public'),
     path_1.default.resolve(__dirname, '../../frontend/dist'),
     path_1.default.resolve(__dirname, '../frontend/dist'),
     path_1.default.resolve(process.cwd(), 'frontend/dist'),
