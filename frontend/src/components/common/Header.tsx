@@ -8,15 +8,21 @@ import {
   AlertTriangle, 
   UserCheck, 
   Briefcase,
-  ChevronDown
+  ChevronDown,
+  Menu
 } from 'lucide-react';
 
 interface HeaderProps {
   onOpenAiAssistant?: () => void;
+  onToggleMobileMenu?: () => void;
   unreadAlertsCount?: number;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenAiAssistant, unreadAlertsCount = 0 }) => {
+export const Header: React.FC<HeaderProps> = ({ 
+  onOpenAiAssistant, 
+  onToggleMobileMenu, 
+  unreadAlertsCount = 0 
+}) => {
   const { user, logout, switchPersona, loginWithAccount } = useAuth();
   const [showPersonaMenu, setShowPersonaMenu] = useState(false);
 
@@ -26,22 +32,22 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAiAssistant, unreadAlertsC
 
     if (status === 'CRITICAL_ATTENTION') {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-criticalBg text-status-critical border border-status-criticalBorder">
+        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-status-criticalBg text-status-critical border border-status-criticalBorder">
           <span className="w-1.5 h-1.5 rounded-full bg-status-critical"></span>
-          Critical Attention
+          Critical
         </span>
       );
     }
     if (status === 'NEEDS_ATTENTION') {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-attentionBg text-status-attention border border-status-attentionBorder">
+        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-status-attentionBg text-status-attention border border-status-attentionBorder">
           <span className="w-1.5 h-1.5 rounded-full bg-status-attention"></span>
-          Needs Attention
+          Attention
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-healthyBg text-status-healthy border border-status-healthyBorder">
+      <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-status-healthyBg text-status-healthy border border-status-healthyBorder">
         <span className="w-1.5 h-1.5 rounded-full bg-status-healthy"></span>
         Healthy
       </span>
@@ -49,34 +55,53 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAiAssistant, unreadAlertsC
   };
 
   return (
-    <header className="h-16 bg-card border-b border-border px-6 flex items-center justify-between sticky top-0 z-30">
-      {/* Left: Organization context */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-secondary">Organization</span>
-          <span className="text-sm font-semibold text-primary">Northstar Technologies</span>
-          <span className="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600 font-mono">Enterprise</span>
+    <header className="h-16 bg-card border-b border-border px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30">
+      {/* Left: Mobile hamburger & Organization context */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        {onToggleMobileMenu && (
+          <button
+            onClick={onToggleMobileMenu}
+            className="md:hidden p-2 text-secondary hover:text-primary hover:bg-slate-100 rounded-lg transition-colors"
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        )}
+
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="w-6 h-6 rounded bg-primary flex md:hidden items-center justify-center text-white font-bold text-xs">
+            P
+          </div>
+          <span className="text-xs sm:text-sm font-semibold text-primary truncate max-w-[120px] sm:max-w-none">
+            Northstar Tech
+          </span>
+          <span className="hidden lg:inline-block text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-mono">
+            Enterprise
+          </span>
         </div>
-        <div className="h-4 w-px bg-border"></div>
+        <div className="hidden sm:block h-4 w-px bg-border"></div>
         {getStatusBadge()}
       </div>
 
       {/* Right: Actions & Profile */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-3">
         {/* Quick Persona Switcher for Hackathon Live Demo */}
         <div className="relative">
           <button
             onClick={() => setShowPersonaMenu(!showPersonaMenu)}
-            className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-slate-50 hover:bg-slate-100 text-primary-subtle border border-border rounded-lg transition-colors"
+            className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-medium bg-slate-50 hover:bg-slate-100 text-primary-subtle border border-border rounded-lg transition-colors"
             title="Switch demo persona seamlessly"
           >
-            <UserCheck className="w-3.5 h-3.5 text-accent" />
-            <span>Switch Role: <strong className="capitalize">{user?.role}</strong></span>
-            <ChevronDown className="w-3 h-3 text-secondary" />
+            <UserCheck className="w-3.5 h-3.5 text-accent shrink-0" />
+            <span className="text-[11px] sm:text-xs">
+              <span className="hidden sm:inline">Role: </span>
+              <strong className="capitalize">{user?.role}</strong>
+            </span>
+            <ChevronDown className="w-3 h-3 text-secondary shrink-0" />
           </button>
 
           {showPersonaMenu && (
-            <div className="absolute right-0 mt-2 w-72 bg-card border border-border rounded-xl shadow-modal p-2 z-50 max-h-[80vh] overflow-y-auto page-enter-animation">
+            <div className="absolute right-0 mt-2 w-72 max-w-[calc(100vw-1.5rem)] bg-card border border-border rounded-xl shadow-modal p-2 z-50 max-h-[75vh] overflow-y-auto page-enter-animation">
               <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-accent border-b border-border mb-1.5 flex items-center justify-between">
                 <span>👔 Managers & Leadership</span>
                 <span className="text-[9px] text-secondary font-normal">Click to switch</span>
@@ -132,10 +157,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAiAssistant, unreadAlertsC
         {onOpenAiAssistant && (
           <button
             onClick={onOpenAiAssistant}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-accent text-white hover:bg-accent-hover rounded-lg shadow-sm transition-all"
+            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold bg-accent text-white hover:bg-accent-hover rounded-lg shadow-sm transition-all"
+            title="Open AI Assistant"
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>AI Assistant</span>
+            <Sparkles className="w-3.5 h-3.5 shrink-0" />
+            <span className="hidden sm:inline">AI Assistant</span>
           </button>
         )}
 

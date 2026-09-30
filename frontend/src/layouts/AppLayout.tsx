@@ -6,18 +6,22 @@ import { AiAssistantDrawer } from '../components/ai/AiAssistantDrawer';
 
 export const AppLayout: React.FC = () => {
   const [isAiDrawerOpen, setIsAiDrawerOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-background text-primary">
+    <div className="flex min-h-screen bg-background text-primary overflow-x-hidden">
       {/* Sidebar Navigation */}
-      <Sidebar />
+      <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
 
       {/* Main Workspace Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 w-full overflow-x-hidden">
         <div className="ambient-top-accent" />
-        <Header onOpenAiAssistant={() => setIsAiDrawerOpen(true)} />
+        <Header 
+          onOpenAiAssistant={() => setIsAiDrawerOpen(true)} 
+          onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        />
 
-        <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto page-enter-animation">
+        <main className="flex-1 p-3.5 sm:p-6 md:p-8 max-w-7xl w-full mx-auto page-enter-animation">
           <Outlet />
         </main>
       </div>

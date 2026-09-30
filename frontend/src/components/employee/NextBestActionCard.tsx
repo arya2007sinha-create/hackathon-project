@@ -51,9 +51,9 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
   const isBlocked = task.status === 'BLOCKED';
 
   return (
-    <div className="bg-card border border-border rounded-2xl p-7 shadow-card relative overflow-hidden transition-all">
+    <div className="bg-card border border-border rounded-2xl p-4 sm:p-7 shadow-card relative overflow-hidden transition-all">
       {/* Top Banner Tag */}
-      <div className="flex items-center justify-between gap-4 mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-4 mb-4">
         <div className="flex items-center gap-2">
           <span className="flex h-2 w-2 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
@@ -64,7 +64,7 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
           </span>
           {task.isManagerOverridden && (
             <span className="px-2 py-0.5 text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200 rounded">
-              Manager Priority Override
+              Manager Override
             </span>
           )}
         </div>
@@ -79,11 +79,11 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
 
       {/* Task Heading */}
       <div className="mb-4">
-        <div className="flex items-baseline gap-2.5 mb-1.5">
+        <div className="flex items-baseline gap-2 mb-1.5 flex-wrap">
           <span className="text-xs font-mono font-medium text-secondary">
             {task.task_code || 'TSK-1006'}
           </span>
-          <h2 className="text-2xl font-bold text-primary tracking-tight">
+          <h2 className="text-lg sm:text-2xl font-bold text-primary tracking-tight">
             {task.title}
           </h2>
         </div>

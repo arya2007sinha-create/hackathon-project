@@ -82,11 +82,11 @@ export const LoginPage: React.FC = () => {
 
       {/* Main Login / Demo Selection Card */}
       <div className="sm:mx-auto sm:w-full sm:max-w-2xl">
-        <div className="bg-card border border-border shadow-card rounded-2xl p-6 sm:p-8 card-stagger-1">
+        <div className="bg-card border border-border shadow-card rounded-2xl p-4 sm:p-8 card-stagger-1">
           
           {/* Navigation Pill Tabs */}
-          <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
-            <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between border-b border-border pb-4 mb-6 gap-2.5">
+            <div className="grid grid-cols-2 sm:flex gap-1.5 sm:gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -94,14 +94,17 @@ export const LoginPage: React.FC = () => {
                   setEmail('sarah.chen@northstar.io');
                   setPassword('Manager123!');
                 }}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                   activeTab === 'managers'
                     ? 'bg-primary text-white shadow-sm'
                     : 'bg-slate-100 text-secondary hover:text-primary hover:bg-slate-200'
                 }`}
               >
-                <Briefcase className="w-3.5 h-3.5" />
-                <span>Managers & Leadership ({DEMO_MANAGERS.length})</span>
+                <Briefcase className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">
+                  <span className="hidden sm:inline">Managers & Leadership</span>
+                  <span className="sm:hidden">Managers</span> ({DEMO_MANAGERS.length})
+                </span>
               </button>
 
               <button
@@ -111,24 +114,27 @@ export const LoginPage: React.FC = () => {
                   setEmail('rahul.sharma@northstar.io');
                   setPassword('Employee123!');
                 }}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                   activeTab === 'employees'
                     ? 'bg-primary text-white shadow-sm'
                     : 'bg-slate-100 text-secondary hover:text-primary hover:bg-slate-200'
                 }`}
               >
-                <Users className="w-3.5 h-3.5" />
-                <span>Frontline Employees ({DEMO_EMPLOYEES.length})</span>
+                <Users className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">
+                  <span className="hidden sm:inline">Frontline Employees</span>
+                  <span className="sm:hidden">Employees</span> ({DEMO_EMPLOYEES.length})
+                </span>
               </button>
             </div>
 
             <button
               type="button"
               onClick={() => setActiveTab('custom')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                 activeTab === 'custom'
                   ? 'text-accent bg-accent/10 border border-accent/30'
-                  : 'text-secondary hover:text-primary'
+                  : 'text-secondary hover:text-primary hover:bg-slate-100'
               }`}
             >
               <KeyRound className="w-3.5 h-3.5" />
