@@ -62,17 +62,17 @@ export const TodayExecutionPlan: React.FC<TodayExecutionPlanProps> = ({
   };
 
   return (
-    <div className="bg-card border border-border rounded-2xl p-6 shadow-card">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-card border border-border rounded-2xl p-4 sm:p-6 shadow-card">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
         <div>
           <h3 className="text-base font-bold text-primary tracking-tight">
             Today's Recommended Order
           </h3>
           <p className="text-xs text-secondary mt-0.5">
-            Organized automatically around urgency, dependencies, and business impact. No manual sorting required.
+            Organized automatically around urgency, dependencies, and business impact.
           </p>
         </div>
-        <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-primary-subtle rounded-md">
+        <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-primary-subtle rounded-md self-start sm:self-auto shrink-0">
           {tasks.length} Assigned Tasks
         </span>
       </div>
@@ -92,7 +92,7 @@ export const TodayExecutionPlan: React.FC<TodayExecutionPlanProps> = ({
               }`}
             >
               {/* Left: Rank, Code, Title & Recommendation Reason */}
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3 min-w-0">
                 <div
                   className={`w-6 h-6 rounded-md flex items-center justify-center font-bold text-xs shrink-0 ${
                     isNextBest
@@ -103,17 +103,17 @@ export const TodayExecutionPlan: React.FC<TodayExecutionPlanProps> = ({
                   {rank}
                 </div>
 
-                <div>
-                  <div className="flex items-center gap-2">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                     <span className="text-[11px] font-mono text-secondary">
                       {task.task_code || `TSK-${1000 + rank}`}
                     </span>
-                    <h4 className="text-xs font-semibold text-primary">
+                    <h4 className="text-xs font-semibold text-primary truncate max-w-[200px] sm:max-w-none">
                       {task.title}
                     </h4>
                     {task.is_carried_forward && (
                       <span className="text-[9px] uppercase px-1.5 py-0.2 rounded bg-amber-50 text-amber-700 border border-amber-200">
-                        Carried Forward
+                        Carried
                       </span>
                     )}
                   </div>
@@ -125,18 +125,18 @@ export const TodayExecutionPlan: React.FC<TodayExecutionPlanProps> = ({
               </div>
 
               {/* Right: Badges & Details */}
-              <div className="flex items-center gap-4 text-xs ml-9 md:ml-0 shrink-0">
-                <div className="w-16 text-right">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs ml-9 md:ml-0 shrink-0">
+                <div className="shrink-0">
                   {getPriorityBadge(task.priority)}
                 </div>
 
-                <div className="w-20 text-center">
+                <div className="shrink-0">
                   <span className="text-[11px] font-mono text-secondary">
-                    {task.estimated_minutes} min
+                    {task.estimated_minutes}m
                   </span>
                 </div>
 
-                <div className="w-24 text-center">
+                <div className="shrink-0">
                   {getStatusBadge(task.status)}
                 </div>
 
